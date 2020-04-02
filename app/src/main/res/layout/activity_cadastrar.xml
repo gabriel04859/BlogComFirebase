@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#E8EAEF"
+    android:layout_height="match_parent"
+    tools:context=".CadastrarActivity">
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageViewCadastrar"
+            android:layout_width="150dp"
+
+            android:layout_margin="16dp"
+            android:layout_height="150dp" />
+
+
+        <EditText
+            android:id="@+id/edtNomeCadastrar"
+            android:layout_width="265dp"
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:hint="Nome" />
+
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/edtEmailCadastrar"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:layout_width="265dp"
+            android:inputType="textEmailAddress"
+            android:layout_height="wrap_content"
+            android:hint="E-mail" />
+
+        <EditText
+            android:id="@+id/edtSenhaCadastrar"
+            android:layout_width="265dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text_background"
+            android:hint="Senha" />
+
+        <EditText
+            android:id="@+id/edtSenhaConfCadastrar"
+            android:layout_width="265dp"
+            android:layout_marginTop="5dp"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:hint="Repita a senha" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:background="@drawable/btn_background"
+        android:layout_width="150dp"
+        android:textColor="#fff"
+        android:layout_below="@id/linear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Cadastrar"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarCadastrar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/linear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>
