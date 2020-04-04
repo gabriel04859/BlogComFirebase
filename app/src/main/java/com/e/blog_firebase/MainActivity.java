@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -38,16 +39,24 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()){
                 case R.id.ic_home:
                     fragmentSelecionada = new HomeFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, new HomeFragment()).commit();
                     getSupportActionBar().setTitle("Home");
+                    break;
+
+                case R.id.ic_add:
+                    startActivity(new Intent(getApplicationContext(), AddActivity.class));
                     break;
 
                 case R.id.ic_perfil:
                     fragmentSelecionada = new PerfilFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, new PerfilFragment()).commit();
                     getSupportActionBar().setTitle("Perfil");
                     break;
 
+
+
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, fragmentSelecionada).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, fragmentSelecionada).commit();
 
             return true;
         }

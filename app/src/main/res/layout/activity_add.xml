@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFundo"
+    tools:context=".AddActivity">
+
+    <ImageView
+        android:id="@+id/imageViewAdd"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_margin="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/userphoto" />
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_below="@id/imageViewAdd"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edtTituloAdd"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                android:background="@drawable/edt_add"
+                android:ems="10"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_height="wrap_content"
+                android:hint="Titulo:"/>
+
+            <EditText
+                android:id="@+id/edtDescricaoAdd"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/edt_add"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:hint="Descrição:"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/btn_background"
+            android:textColor="#fff"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:text="Add"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarAdd"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/linear"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

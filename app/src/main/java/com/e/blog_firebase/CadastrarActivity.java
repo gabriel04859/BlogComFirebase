@@ -108,8 +108,8 @@ public class CadastrarActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    mostrarToast("Conta criada.");
                     updateUsuario(email, senha, nome);
+                    updateImagemUsuario();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
 
@@ -133,6 +133,7 @@ public class CadastrarActivity extends AppCompatActivity {
         usuario.setSenha(senha);
         usuario.setId(id);
         databaseReference.child(id).setValue(usuario);
+
 
 
 
@@ -185,7 +186,7 @@ public class CadastrarActivity extends AppCompatActivity {
 
     private void abrirGaleria() {
         Intent intentAbriGaleria = new Intent();
-        intentAbriGaleria.setAction("image/*");
+        intentAbriGaleria.setType("image/*");
         intentAbriGaleria.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intentAbriGaleria,REQUEST_CODE);
     }
@@ -193,7 +194,7 @@ public class CadastrarActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_OK && resultCode == REQUEST_CODE && data.getData() != null){
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data.getData() != null){
             imgUri = data.getData();
             imageView.setImageURI(imgUri);
         }
@@ -208,7 +209,7 @@ public class CadastrarActivity extends AppCompatActivity {
         btnCadastrar= findViewById(R.id.btnCadastrar);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Usuarios");
-        storageReference = FirebaseStorage.getInstance().getReference().child("user_imagens");
+        storageReference = FirebaseStorage.getInstance().getReference().child("user_imagens/");
         progressBar = findViewById(R.id.progressBarCadastrar);
     }
 

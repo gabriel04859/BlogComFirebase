@@ -1,16 +1,23 @@
 package com.e.blog_firebase.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.e.blog_firebase.LoginActivity;
 import com.e.blog_firebase.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeFragment extends Fragment {
+    FirebaseAuth firebaseAuth;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -21,6 +28,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
     }
 
     @Override
@@ -28,5 +38,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
     }
 }
