@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                         mostrarToast("Ocorreu um erro, tente novamente.");
                         btnLogin.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
+                        Log.i("TESTE", task.getException().toString() );
                     }
 
                 }
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    @Override
+
     protected void onStart() {
         super.onStart();
         FirebaseUser user = firebaseAuth.getCurrentUser();

@@ -6,7 +6,9 @@
     tools:context=".Fragment.HomeFragment">
 
    <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recyclerViewHome"
        android:layout_width="match_parent"
+       tools:listitem="@layout/item_recycler_main"
        android:layout_height="match_parent"/>
 
 </RelativeLayout>

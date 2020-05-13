@@ -36,115 +36,89 @@ import java.net.URI;
 import java.util.UUID;
 
 public class AddActivity extends AppCompatActivity {
-    private ImageView imgAdd;
-    private EditText edtTitulo, edtDescricao;
+    private ImageView imgPost;
+    private EditText txtTitulo, txtDescricao;
     private Button btnAdd;
     private ProgressBar progressBar;
 
-    private final int REQUEST_CODE = 1;
-    private Uri imgUriAdd;
-
-    private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
+
+    private final int REQUEST_CODE = 1;
+    private Uri imgUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        getSupportActionBar().hide();
 
         iniciaComponentes();
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtemDados();
+            }
+        });
 
-        imgAdd.setOnClickListener(new View.OnClickListener() {
+        imgPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirGaleria();
             }
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              updateImagemPostagem();
-            }
-        });
     }
 
-    private void iniciaComponentes() {
-        imgAdd = findViewById(R.id.imageViewAdd);
-        edtTitulo = findViewById(R.id.edtTituloAdd);
-        edtDescricao = findViewById(R.id.edtDescricaoAdd);
-        btnAdd = findViewById(R.id.btnAdd);
-        progressBar = findViewById(R.id.progressBarAdd);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Postagens");
-        storageReference = FirebaseStorage.getInstance().getReference().child("postagem_imagens/");
-    }
-
-    private void addPostagem(String imagem){
-        String titulo = edtTitulo.getText().toString().trim();
-        String descricao = edtTitulo.getText().toString().trim();
-        final String id = UUID.randomUUID().toString();
-
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        assert firebaseUser != null;
-        final String idUser = firebaseUser.getUid();
-
-        final Postagem postagem = new Postagem();
-        postagem.setDescricao(descricao);
-        postagem.setTitulo(titulo);
-        postagem.setId(id);
-        postagem.setIdUsuario(idUser);
-        postagem.setImage(imagem);
-        databaseReference.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                databaseReference.child(id +" - " + idUser).setValue(postagem);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-    }
-    private void abrirGaleria(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data.getData() != null){
-            imgUriAdd = data.getData();
-            imgAdd.setImageURI(imgUriAdd);
-
+    private void obtemDados(){
+        String titulo = txtTitulo.getText().toString();
+        String descricao = txtDescricao.getText().toString();
+        if (titulo.isEmpty()){
+            txtTitulo.setError("Título não pode estar vazio.");
+            txtTitulo.requestFocus();
+            return;
         }
+        updatePostagem(titulo, descricao);
+    }
+
+    private void criaPostagem(String titulo, String descricao, Uri uriImg){
+        Postagem postagem = new Postagem();
+        postagem.setIdUsuario(firebaseUser.getUid());
+        postagem.setTitulo(titulo);
+        postagem.setImage(uriImg.toString());
+        postagem.setDescricao(descricao);
+        databaseReference.child(firebaseUser.getUid());
+        databaseReference.setValue(postagem);
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
+    }
+    private void updatePostagem(final String titulo, final String descricao) {
+        final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getException(imgUri));
+        reference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        criaPostagem(titulo, descricao, uri);
+                    }
+                    //fail do getDownloadUrl
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("TESTE", e.getMessage());
+                    }
+                });
+            }
+            //fail do put
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("TESTE", e.getMessage());
+            }
+        });
     }
 
     private String getException(Uri uri){
@@ -153,22 +127,35 @@ public class AddActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    private void updateImagemPostagem() {
-        StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+ getException(imgUriAdd));
-        String id = reference.toString();
-        addPostagem(id);
-
-        reference.putFile(imgUriAdd)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                });
+    private void abrirGaleria() {
+        Intent intentAbrirGaleria = new Intent();
+        intentAbrirGaleria.setType("image/*");
+        intentAbrirGaleria.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intentAbrirGaleria,REQUEST_CODE );
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data.getData() != null){
+            imgUri = data.getData();
+            imgPost.setImageURI(imgUri);
+        }
+
+    }
+
+    private void iniciaComponentes() {
+        imgPost = findViewById(R.id.imageViewAdd);
+        txtTitulo = findViewById(R.id.edtTituloAdd);
+        txtDescricao = findViewById(R.id.edtDescricaoAdd);
+        btnAdd = findViewById(R.id.btnAdd);
+        progressBar = findViewById(R.id.progressBarAdd);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Postagens");
+        storageReference = FirebaseStorage.getInstance().getReference().child("postagem_imagens/");
+        storageReference.child(firebaseUser.getUid());
+    }
+
 }

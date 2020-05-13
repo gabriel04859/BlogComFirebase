@@ -14,12 +14,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageViewCadastrar"
             android:layout_width="150dp"
-
-            android:layout_margin="16dp"
-            android:layout_height="150dp" />
+            android:background="@drawable/userphoto"
+            android:layout_height="150dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="16dp"/>
 
 
         <EditText
@@ -28,14 +29,15 @@
             android:background="@drawable/edit_text_background"
             android:ems="10"
             android:inputType="text"
+            android:paddingLeft="20dp"
             android:layout_height="wrap_content"
             android:hint="Nome" />
 
         <EditText
             android:background="@drawable/edit_text_background"
             android:id="@+id/edtEmailCadastrar"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
             android:layout_width="265dp"
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
@@ -44,16 +46,18 @@
         <EditText
             android:id="@+id/edtSenhaCadastrar"
             android:layout_width="265dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:paddingLeft="20dp"
             android:background="@drawable/edit_text_background"
             android:hint="Senha" />
 
         <EditText
             android:id="@+id/edtSenhaConfCadastrar"
             android:layout_width="265dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="20dp"
             android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"

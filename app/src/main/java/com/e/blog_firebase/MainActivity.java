@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.e.blog_firebase.Fragment.HomeFragment;
-import com.e.blog_firebase.Fragment.PerfilFragment;
+import com.e.blog_firebase.Model.Usuario;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    private Usuario usuario;
 
 
     @Override
@@ -21,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Home");
         setContentView(R.layout.activity_main);
+
+
+
+
+
 
         bottomNavigationView = findViewById(R.id.bottomMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -38,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragmentSelecionada = null;
             switch (menuItem.getItemId()){
                 case R.id.ic_home:
-                    fragmentSelecionada = new HomeFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, new HomeFragment()).commit();
-                    getSupportActionBar().setTitle("Home");
+                   fragmentSelecionada = new HomeFragment();
+                   getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, fragmentSelecionada).commit();
+
                     break;
 
                 case R.id.ic_add:
@@ -48,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.ic_perfil:
-                    fragmentSelecionada = new PerfilFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, new PerfilFragment()).commit();
-                    getSupportActionBar().setTitle("Perfil");
+                    startActivity(new Intent(getApplicationContext(), PerfilActivity.class));
                     break;
 
 

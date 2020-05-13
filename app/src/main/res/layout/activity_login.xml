@@ -19,17 +19,17 @@
             android:background="@drawable/edit_text_background"
             android:id="@+id/edtEmailLogin"
             android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
-            android:layout_width="300dp"
+            android:paddingLeft="20dp"
+            android:layout_width="265dp"
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
             android:hint="E-mail" />
 
         <EditText
             android:id="@+id/edtSenhaLogin"
-            android:layout_width="300dp"
+            android:layout_width="265dp"
             android:layout_marginTop="15dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:background="@drawable/edit_text_background"
@@ -40,7 +40,7 @@
     <Button
         android:id="@+id/btnLogin"
         android:background="@drawable/btn_background"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:textColor="#fff"
         android:layout_below="@id/linear"
         android:layout_centerHorizontal="true"
