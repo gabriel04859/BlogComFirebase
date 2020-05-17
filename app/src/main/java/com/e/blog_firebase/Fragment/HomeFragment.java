@@ -19,6 +19,7 @@ import com.e.blog_firebase.LoginActivity;
 import com.e.blog_firebase.Model.Postagem;
 import com.e.blog_firebase.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,8 +57,11 @@ public class HomeFragment extends Fragment {
         recyclerViewHome.setHasFixedSize(true);
         recyclerViewHome.setLayoutManager(new LinearLayoutManager(getContext()));
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Postagens");
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Post");
         postagemArrayList = new ArrayList<>();
+
+
 
         return view;
     }
@@ -67,6 +71,24 @@ public class HomeFragment extends Fragment {
         super.onStart();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postsnap: dataSnapshot.getChildren()){
+                        Postagem postagem = postsnap.getValue(Postagem.class);
+                        postagemArrayList.add(postagem);
+                    }
+
+                homeAdapter = new HomeAdapter(getContext(),postagemArrayList);
+                recyclerViewHome.setAdapter(homeAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+       /* databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
@@ -82,7 +104,7 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
 }

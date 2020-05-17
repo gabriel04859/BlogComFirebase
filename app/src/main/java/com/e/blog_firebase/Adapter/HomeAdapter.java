@@ -1,6 +1,7 @@
 package com.e.blog_firebase.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.e.blog_firebase.DetalhesPostActivity;
 import com.e.blog_firebase.Model.Postagem;
 import com.e.blog_firebase.Model.Usuario;
 import com.e.blog_firebase.R;
@@ -41,6 +43,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             imagePerfilItem = itemView.findViewById(R.id.imagePerfilItem);
             txtTituloItem = itemView.findViewById(R.id.txtTituloItem);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DetalhesPostActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 
@@ -55,9 +65,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Postagem postagem = postagemList.get(position);
         holder.txtTituloItem.setText(postagem.getTitulo());
-        //Glide.with(context).load(postagemList.get(position).getImage()).into(holder.imageItem);
-        String imgPostagem = postagem.getImage();
-        Picasso.get().load(imgPostagem).into(holder.imageItem);
+        Picasso.get().load(postagem.getImage()).into(holder.imageItem);
+        Picasso.get().load(postagem.getUserPhoto()).into(holder.imagePerfilItem);
+
+
 
 
 

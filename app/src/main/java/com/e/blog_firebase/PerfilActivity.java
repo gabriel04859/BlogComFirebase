@@ -48,28 +48,25 @@ public class PerfilActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
 
         assert firebaseUser != null;
         final String idUser = firebaseUser.getUid();
-
+        Toast.makeText(getApplicationContext(), idUser, Toast.LENGTH_LONG).show();
         databaseReference.child(idUser);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    Usuario usuario = dataSnapshot1.getValue(Usuario.class);
+                    Usuario usuario = dataSnapshot.getValue(Usuario.class);
                     assert usuario != null;
-                    String nome = usuario.getNome();
-                    String email = usuario.getEmail();
-                    String imgUrl = usuario.getImgUri();
-                    txtNomePerfil.setText(nome);
-                    txtEmailPerfil.setText(email);
-                    Picasso.get().load(imgUrl).into(circleImageViewPerfil);
+                    txtNomePerfil.setText(usuario.getNome());
+                    txtEmailPerfil.setText(usuario.getEmail());
+                    Picasso.get().load(usuario.getImgUri()).into(circleImageViewPerfil);
 
-                }
+
             }
 
             @Override
@@ -85,7 +82,9 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
             }
         });

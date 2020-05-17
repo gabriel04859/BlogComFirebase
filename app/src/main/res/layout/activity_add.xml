@@ -4,16 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorFundo"
+    android:background="#1B2402BD"
     tools:context=".AddActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imageViewAdd"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:layout_margin="16dp"
+            android:background="#372C2C2C"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/imageVieq"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@id/imageViewAdd"
+            android:background="@drawable/item_style"
             android:layout_centerHorizontal="true"/>
 
         <LinearLayout
@@ -25,10 +33,10 @@
 
             <EditText
                 android:id="@+id/edtTituloAdd"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:inputType="text"
-                android:background="@drawable/edt_add"
+                android:background="@drawable/edit_text_background"
                 android:ems="10"
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -37,37 +45,42 @@
 
             <EditText
                 android:id="@+id/edtDescricaoAdd"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:layout_width="match_parent"
-                android:background="@drawable/edt_add"
+                android:background="@drawable/edit_text_background"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:hint="Descrição:"/>
         </LinearLayout>
 
-        <Button
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnAdd"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_below="@+id/linear"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_add"
             android:layout_marginTop="50dp"
-            android:background="@drawable/btn_background"
-            android:textColor="#fff"
-            android:textAllCaps="false"
-            android:textSize="16dp"
-            android:text="Add"/>
+            android:src="@drawable/ic_add"
+            android:layout_margin="12dp"
+            android:padding="12dp"/>
+
+
 
         <ProgressBar
             android:id="@+id/progressBarAdd"
             style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_below="@+id/linear"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_add"
+            android:layout_marginTop="50dp"
             android:visibility="gone"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/ic_add"
+            android:layout_margin="12dp"
+            android:padding="12dp" />
 
     </RelativeLayout>
 

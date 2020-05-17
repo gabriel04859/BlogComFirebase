@@ -35,16 +35,20 @@ import com.google.firebase.storage.UploadTask;
 import java.net.URI;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AddActivity extends AppCompatActivity {
     private ImageView imgPost;
     private EditText txtTitulo, txtDescricao;
-    private Button btnAdd;
+    private CircleImageView btnAdd;
     private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
+
+    private String userId;
 
     private final int REQUEST_CODE = 1;
     private Uri imgUri;
@@ -73,6 +77,9 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void obtemDados(){
+        btnAdd.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         String titulo = txtTitulo.getText().toString();
         String descricao = txtDescricao.getText().toString();
         if (titulo.isEmpty()){
@@ -84,15 +91,34 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void criaPostagem(String titulo, String descricao, Uri uriImg){
+        databaseReference.child(titulo);
+        DatabaseReference databaseReferenceUser = FirebaseDatabase.getInstance().getReference();
+        databaseReferenceUser.child("Users").child(firebaseUser.getUid()).child("imgUri");
+        String imagemUser = databaseReferenceUser.toString();
+        String idPost = databaseReference.getKey();
         Postagem postagem = new Postagem();
         postagem.setIdUsuario(firebaseUser.getUid());
         postagem.setTitulo(titulo);
         postagem.setImage(uriImg.toString());
         postagem.setDescricao(descricao);
-        databaseReference.child(firebaseUser.getUid());
-        databaseReference.setValue(postagem);
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
+        postagem.setId(idPost);
+        postagem.setUserPhoto(imagemUser);
+
+
+        databaseReference.push().setValue(postagem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                btnAdd.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
     }
     private void updatePostagem(final String titulo, final String descricao) {
         final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getException(imgUri));
@@ -151,9 +177,13 @@ public class AddActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         progressBar = findViewById(R.id.progressBarAdd);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Postagens");
+        assert firebaseUser != null;
+        userId = firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Post");
+
         storageReference = FirebaseStorage.getInstance().getReference().child("postagem_imagens/");
         storageReference.child(firebaseUser.getUid());
     }

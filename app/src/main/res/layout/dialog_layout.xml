@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1B2402BD">
+
+    <ImageView
+        android:id="@+id/imageViewPost"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:background="#fafafa"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewEnd"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/item_style"
+        android:layout_alignBottom="@id/imageViewPost" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/userphoto"
+        android:layout_alignBottom="@id/imageViewEnd"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+         />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewEnd">
+
+        <EditText
+            android:id="@+id/editTextTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginTop="5dp"
+            android:inputType="textPersonName"
+            android:text="Titulo"
+            android:paddingLeft="10dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/imageViewPost" />
+
+        <EditText
+            android:id="@+id/editTextDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:paddingLeft="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Name" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnEditar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_edit"
+        android:padding="10dp"
+        android:background="@drawable/btn_add"
+        android:layout_below="@id/linear"
+
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

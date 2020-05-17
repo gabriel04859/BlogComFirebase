@@ -49,5 +49,15 @@ public class Postagem {
     private String descricao;
     private String idUsuario;
 
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
+    }
+
+    private String userPhoto;
+
 
 }
