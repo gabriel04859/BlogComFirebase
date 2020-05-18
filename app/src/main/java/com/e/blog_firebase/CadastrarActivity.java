@@ -162,11 +162,9 @@ public class CadastrarActivity extends AppCompatActivity {
                         usuario.setEmail(email);
                         usuario.setSenha(senha);
                         usuario.setImgUri(uri.toString());
-
-
-
                         databaseReference.child("Users").child(id).setValue(usuario);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
 
@@ -190,17 +188,11 @@ public class CadastrarActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-
-
-
-
-
     private void abrirGaleria() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent,REQUEST_CODE);
-
     }
 
     @Override

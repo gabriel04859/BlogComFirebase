@@ -91,11 +91,11 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void criaPostagem(String titulo, String descricao, Uri uriImg){
-        databaseReference.child(titulo);
         DatabaseReference databaseReferenceUser = FirebaseDatabase.getInstance().getReference();
         databaseReferenceUser.child("Users").child(firebaseUser.getUid()).child("imgUri");
         String imagemUser = databaseReferenceUser.toString();
-        String idPost = databaseReference.getKey();
+        String idPost = UUID.randomUUID().toString();
+        databaseReference.child(idPost);
         Postagem postagem = new Postagem();
         postagem.setIdUsuario(firebaseUser.getUid());
         postagem.setTitulo(titulo);

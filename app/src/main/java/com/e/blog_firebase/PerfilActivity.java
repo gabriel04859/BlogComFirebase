@@ -54,7 +54,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         assert firebaseUser != null;
         final String idUser = firebaseUser.getUid();
-        Toast.makeText(getApplicationContext(), idUser, Toast.LENGTH_LONG).show();
+        
         databaseReference.child(idUser);
 
         databaseReference.addValueEventListener(new ValueEventListener() {

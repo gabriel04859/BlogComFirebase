@@ -47,6 +47,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetalhesPostActivity.class);
+                    int position = getAdapterPosition();
+                    intent.putExtra("titulo", postagemList.get(position).getTitulo());
+                    intent.putExtra("descricao", postagemList.get(position).getDescricao());
+                    intent.putExtra("postImagem", postagemList.get(position).getImage());
+                    intent.putExtra("userPhoto", postagemList.get(position).getUserPhoto());
+                    intent.putExtra("idPost", postagemList.get(position).getId());
                     context.startActivity(intent);
                 }
             });

@@ -1,84 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B2402BD">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/imageViewPost"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        android:background="#fafafa"
-        />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageViewEnd"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/item_style"
-        android:layout_alignBottom="@id/imageViewPost" />
+        <ImageView
+            android:id="@+id/imageViewPost"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:scaleType="centerCrop"
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageViewPerfilDet"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/userphoto"
-        android:layout_alignBottom="@id/imageViewEnd"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        />
+            />
 
-    <LinearLayout
-        android:id="@+id/linear"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageViewEnd">
+        <ImageView
+            android:id="@+id/imageViewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/item_style"
+            android:layout_alignBottom="@id/imageViewPost" />
 
-        <EditText
-            android:id="@+id/editTextTituloDet"
+
+        <LinearLayout
+            android:id="@+id/lienar"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_marginTop="5dp"
-            android:inputType="textPersonName"
-            android:text="Titulo"
-            android:paddingLeft="10dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@id/imageViewPost" />
+            android:layout_below="@+id/imageViewPost">
 
-        <EditText
-            android:id="@+id/editTextDescricaoDet"
+            <TextView
+                android:id="@+id/txtTituloDet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="Titulo"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="16dp"
+              />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewPerfilDet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/userphoto"
+               />
+
+
+        </LinearLayout>
+
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_margin="16dp"
+            android:layout_height="1dp"
+            android:background="#2c2c2c"
+            android:layout_below="@id/lienar"/>
+
+        <TextView
+            android:id="@+id/txtDataDet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:paddingLeft="10dp"
-            android:inputType="textPersonName"
-            android:background="@drawable/edit_text_background"
+            android:text="10/10/2010"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:text="Name" />
+            android:layout_marginLeft="16dp"
+            android:layout_below="@+id/view"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtDescricaoDet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Descricao DescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDesc
+            ricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricao"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:lineSpacingExtra="8dp"
+            android:layout_below="@+id/txtDataDet"/>
 
-    <ImageView
-        android:id="@+id/btnEditar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/ic_edit"
-        android:padding="10dp"
-        android:background="@drawable/btn_add"
-        android:layout_below="@id/linear"
+        <EditText
+            android:id="@+id/edtComentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btnComentario"
+            android:layout_below="@id/txtDescricaoDet"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="Comente..." />
 
-        android:layout_centerInParent="true"/>
+       <ImageButton
+           android:id="@+id/btnComentario"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:src="@drawable/ic_edit"
+           android:background="@drawable/btn_add"
+           android:layout_marginLeft="5dp"
+           android:layout_marginRight="16dp"
+           android:layout_alignParentRight="true"
+           android:layout_below="@id/txtDescricaoDet"
+           android:layout_marginTop="5dp"/>
 
 
-</RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.core.widget.NestedScrollView>

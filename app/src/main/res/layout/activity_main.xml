@@ -10,8 +10,7 @@
     <FrameLayout
         android:id="@+id/frameMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottomMain"/>
+        android:layout_height="match_parent" />
 
 
 
@@ -25,7 +24,6 @@
         android:background="@drawable/bottom_style"
         app:menu="@menu/bottom_menu"
         app:itemIconTint="#FFF"
-
         app:itemTextColor="#fff"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

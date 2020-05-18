@@ -2,6 +2,11 @@ package com.e.blog_firebase.Model;
 
 public class Postagem {
     public Postagem(){}
+    private String image;
+    private String titulo;
+    private String descricao;
+    private String idUsuario;
+    private String userPhoto;
     private String id;
 
     public String getId() {
@@ -44,10 +49,7 @@ public class Postagem {
         this.idUsuario = idUsuario;
     }
 
-    private String image;
-    private String titulo;
-    private String descricao;
-    private String idUsuario;
+
 
     public String getUserPhoto() {
         return userPhoto;
@@ -57,7 +59,6 @@ public class Postagem {
         this.userPhoto = userPhoto;
     }
 
-    private String userPhoto;
 
 
 }
