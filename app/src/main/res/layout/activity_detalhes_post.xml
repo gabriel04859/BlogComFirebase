@@ -15,9 +15,7 @@
             android:id="@+id/imageViewPost"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:scaleType="centerCrop"
-
-            />
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/imageViewEnd"
@@ -82,8 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Descricao DescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDesc
-            ricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricaoDescricao"
+            android:text="o"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -113,9 +110,12 @@
            android:layout_below="@id/txtDescricaoDet"
            android:layout_marginTop="5dp"/>
 
-
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewComentarios"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/row_comentario"
+            android:layout_height="match_parent"
+            android:layout_below="@id/edtComentario"/>
 
 
     </RelativeLayout>

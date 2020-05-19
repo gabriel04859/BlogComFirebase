@@ -8,31 +8,6 @@ public class Comentario {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getUimg() {
-        return uimg;
-    }
-
-    public void setUimg(String uimg) {
-        this.uimg = uimg;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-
-    public void setUname(String uname) {
-        this.uname = uname;
-    }
-
     public Object getTimetamp() {
         return timetamp;
     }
@@ -41,6 +16,34 @@ public class Comentario {
         this.timetamp = timetamp;
     }
 
-    private String comentario, uid, uimg, uname;
+    private String comentario;
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getImgUser() {
+        return imgUser;
+    }
+
+    public void setImgUser(String imgUser) {
+        this.imgUser = imgUser;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private String idUser;
+    private String imgUser;
+    private String userName;
     private Object timetamp;
 }

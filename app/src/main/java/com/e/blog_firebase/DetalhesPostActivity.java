@@ -1,6 +1,9 @@
 package com.e.blog_firebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.media.Image;
@@ -15,13 +18,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.e.blog_firebase.Adapter.ComentarioAdapter;
 import com.e.blog_firebase.Model.Comentario;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +40,9 @@ public class DetalhesPostActivity extends AppCompatActivity {
     private CircleImageView imgPerfilDet;
     private EditText edtComentario;
     private ImageButton btnComentario;
+    private RecyclerView recyclerViewComentario;
+    private ArrayList<Comentario> comentarioArrayList;
+    private ComentarioAdapter comentarioAdapter;
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReferenceComent;
@@ -45,6 +57,9 @@ public class DetalhesPostActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciaComponentes();
+
+        recyclerViewComentario.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewComentario.setHasFixedSize(true);
 
 
         String titulo = getIntent().getStringExtra("titulo");
@@ -80,8 +95,8 @@ public class DetalhesPostActivity extends AppCompatActivity {
         DatabaseReference databaseReference1 = databaseReference.child(idUser).child("nome");
         String nomeUser = databaseReference1.toString();
         comentario1.setComentario(comentario);
-        comentario1.setUid(idUser);
-        comentario1.setUname(nomeUser);
+        comentario1.setIdUser(idUser);
+        comentario1.setUserName(nomeUser);
 
         databaseReferenceComent.setValue(comentario1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -101,8 +116,17 @@ public class DetalhesPostActivity extends AppCompatActivity {
         imgPerfilDet = findViewById(R.id.imageViewPerfilDet);
         edtComentario = findViewById(R.id.edtComentario);
         btnComentario = findViewById(R.id.btnComentario);
+        recyclerViewComentario = findViewById(R.id.recyclerViewComentarios);
+        comentarioArrayList = new ArrayList<>();
 
     }
+
+    private void configRecycler(){
+
+
+    }
+
+
 
     private void configFirebase(String idPost){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -119,5 +143,28 @@ public class DetalhesPostActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        databaseReferenceComent.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot coment : dataSnapshot.getChildren()){
+                    //Comentario comentario = coment.getValue(Comentario.class);
+                    String comentario = coment.child("comentario").getValue(String.class);
+                    Comentario comentario1 = new Comentario();
+                    comentario1.setComentario(comentario);
+                    comentarioArrayList.add(comentario1);
+
+                }
+
+                comentarioAdapter = new ComentarioAdapter(getApplicationContext(), comentarioArrayList);
+                recyclerViewComentario.setAdapter(comentarioAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

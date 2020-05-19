@@ -34,6 +34,7 @@ public class PerfilActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private ValueEventListener valueEventListenerUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,45 +48,22 @@ public class PerfilActivity extends AppCompatActivity {
         btnSair = findViewById(R.id.btnSingOUt);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
-
-        assert firebaseUser != null;
-        final String idUser = firebaseUser.getUid();
-        
-        databaseReference.child(idUser);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                    assert usuario != null;
-                    txtNomePerfil.setText(usuario.getNome());
-                    txtEmailPerfil.setText(usuario.getEmail());
-                    Picasso.get().load(usuario.getImgUri()).into(circleImageViewPerfil);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.i("TESTE", databaseError.getMessage());
-
-            }
-        });
-
-
 
         btnSair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                try{
+                    firebaseAuth.signOut();
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -93,4 +71,36 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
 
+    private void recuperaDadosUser(){
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        final String idUser = firebaseUser.getUid();
+        databaseReference.child(idUser);
+         valueEventListenerUsuario =   databaseReference.addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 for (DataSnapshot ds: dataSnapshot.getChildren()){
+                     Usuario usuario = ds.getValue(Usuario.class);
+                     String nome = String.valueOf( usuario.getNome() );
+                     String email = String.valueOf(usuario.getEmail());
+                     String imgUrl = String.valueOf(usuario.getImgUri());
+
+                     txtNomePerfil.setText(nome);
+                     txtEmailPerfil.setText(email);
+                     Picasso.get().load(imgUrl).into(circleImageViewPerfil);
+                 }
+
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+                 Log.i("TESTE", databaseError.getMessage());
+             }
+         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperaDadosUser();
+    }
 }

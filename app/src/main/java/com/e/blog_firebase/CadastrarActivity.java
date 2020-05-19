@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -133,6 +134,7 @@ public class CadastrarActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()){
                     criaUser(nome,email,senha);
+                    //String idUsuario = task.getResult().getUser().getUid();
                 }
 
             }
@@ -156,6 +158,8 @@ public class CadastrarActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         final String id = firebaseUser.getUid();
+                        outroCadastroUser(nome, uri,firebaseUser);
+
                         Usuario usuario = new Usuario();
                         usuario.setId(id);
                         usuario.setNome(nome);
@@ -182,6 +186,22 @@ public class CadastrarActivity extends AppCompatActivity {
         });
     }
 
+    private void outroCadastroUser(String nome, Uri uri, FirebaseUser firebaseUser) {
+        UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
+                .setDisplayName(nome)
+                .setPhotoUri(uri)
+                .build();
+
+
+        firebaseUser.updateProfile(profleUpdate)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+
+    }
     private String getException(Uri uri){
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
