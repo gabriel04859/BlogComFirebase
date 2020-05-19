@@ -88,23 +88,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-       /* databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    Postagem postagem = dataSnapshot1.getValue(Postagem.class);
-                    postagemArrayList.add(postagem);
-
-                }
-                homeAdapter = new HomeAdapter(getContext(), postagemArrayList);
-                recyclerViewHome.setAdapter(homeAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.blog_firebase.Model.Comentario;
 import com.e.blog_firebase.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,8 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
         Comentario comentario = comentarioArrayList.get(position);
         holder.txtNome.setText(comentario.getUserName());
         holder.txtComentario.setText(comentario.getComentario());
+        String imgUser = comentario.getImgUser();
+        Picasso.get().load(imgUser).into(holder.imgPerfil);
 
 
     }

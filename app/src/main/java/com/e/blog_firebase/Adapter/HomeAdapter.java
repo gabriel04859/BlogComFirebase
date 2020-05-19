@@ -19,7 +19,6 @@ import com.e.blog_firebase.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,6 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         private ImageView imageItem;
         private CircleImageView imagePerfilItem;
         private TextView txtTituloItem;
+
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
 

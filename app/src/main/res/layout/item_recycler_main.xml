@@ -5,11 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#2c2c2c"
+        android:layout_above="@id/imageItem"/>
+
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="85dp"
         android:layout_alignBottom="@id/imageItem"
         android:background="@drawable/item_style" />
 
@@ -19,14 +26,14 @@
         android:layout_height="400dp"
         android:scaleType="centerCrop"
     />
-
     <TextView
         android:id="@+id/txtTituloItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Titulo"
 
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#fff"
         android:textStyle="bold"
@@ -38,9 +45,18 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/imageItem"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:src="@drawable/userphoto"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#2c2c2c"
+        android:layout_below="@id/imagePerfilItem"/>
+
 
 
 

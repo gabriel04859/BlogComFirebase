@@ -57,6 +57,7 @@ public class DetalhesPostActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciaComponentes();
+        configFirebase();
 
         recyclerViewComentario.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewComentario.setHasFixedSize(true);
@@ -65,12 +66,11 @@ public class DetalhesPostActivity extends AppCompatActivity {
         String titulo = getIntent().getStringExtra("titulo");
         String descricao = getIntent().getStringExtra("descricao");
         String postImage = getIntent().getStringExtra("postImagem");
-        String idPost = getIntent().getStringExtra("idPost");
-       // String imgUser = firebaseUser.getPhotoUrl().toString();
-        configFirebase(idPost);
+        String userImg = getIntent().getStringExtra("userPhoto");
         txtTituloDet.setText(titulo);
         txtDescricaoDet.setText(descricao);
         Picasso.get().load(postImage).into(imgPost);
+        Picasso.get().load(userImg).into(imgPerfilDet);
 
         btnComentario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,25 +83,23 @@ public class DetalhesPostActivity extends AppCompatActivity {
     }
 
     private void addComentario() {
-        if (edtComentario.getText() == null){
-            return;
-        }
-        String comentario = edtComentario.getText().toString();
-        Comentario comentario1 = new Comentario();
+
+        final String coment = edtComentario.getText().toString();
+        Comentario comentario = new Comentario();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         assert firebaseUser != null;
         String idUser = firebaseUser.getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        DatabaseReference databaseReference1 = databaseReference.child(idUser).child("nome");
-        String nomeUser = databaseReference1.toString();
-        comentario1.setComentario(comentario);
-        comentario1.setIdUser(idUser);
-        comentario1.setUserName(nomeUser);
 
-        databaseReferenceComent.setValue(comentario1).addOnSuccessListener(new OnSuccessListener<Void>() {
+        String nomeUser = firebaseUser.getDisplayName();
+        comentario.setComentario(coment);
+        comentario.setIdUser(idUser);
+        comentario.setUserName(nomeUser);
+        comentario.setImgUser(firebaseUser.getPhotoUrl().toString());
+
+        databaseReferenceComent.setValue(comentario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(), "Sucesso", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), coment, Toast.LENGTH_LONG).show();
                 edtComentario.setText("");
             }
         });
@@ -128,9 +126,9 @@ public class DetalhesPostActivity extends AppCompatActivity {
 
 
 
-    private void configFirebase(String idPost){
+    private void configFirebase(){
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReferenceComent = FirebaseDatabase.getInstance().getReference().child("Comentarios").child(idPost).push();
+
     }
 
     @Override
@@ -144,15 +142,23 @@ public class DetalhesPostActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        databaseReferenceComent = FirebaseDatabase.getInstance().getReference().child("Comentarios");
+        String idPost = getIntent().getStringExtra("idPost");
+        databaseReferenceComent.child(idPost);
         databaseReferenceComent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot coment : dataSnapshot.getChildren()){
                     //Comentario comentario = coment.getValue(Comentario.class);
-                    String comentario = coment.child("comentario").getValue(String.class);
-                    Comentario comentario1 = new Comentario();
-                    comentario1.setComentario(comentario);
-                    comentarioArrayList.add(comentario1);
+                    String cometarioStg = coment.child("comentario").getValue(String.class);
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    String nomeUser = firebaseUser.getDisplayName();
+                    String imgUser = firebaseUser.getPhotoUrl().toString();
+                    Comentario comentario = new Comentario();
+                    comentario.setComentario(cometarioStg);
+                    comentario.setImgUser(imgUser);
+                    comentario.setUserName(nomeUser);
+                    comentarioArrayList.add(comentario);
 
                 }
 

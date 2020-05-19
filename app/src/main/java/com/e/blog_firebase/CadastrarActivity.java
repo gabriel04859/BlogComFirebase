@@ -158,8 +158,7 @@ public class CadastrarActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         final String id = firebaseUser.getUid();
-                        outroCadastroUser(nome, uri,firebaseUser);
-
+                        cadastrarFirebaseAuth(nome, uri,firebaseUser);
                         Usuario usuario = new Usuario();
                         usuario.setId(id);
                         usuario.setNome(nome);
@@ -186,7 +185,7 @@ public class CadastrarActivity extends AppCompatActivity {
         });
     }
 
-    private void outroCadastroUser(String nome, Uri uri, FirebaseUser firebaseUser) {
+    private void cadastrarFirebaseAuth(String nome, Uri uri, FirebaseUser firebaseUser) {
         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nome)
                 .setPhotoUri(uri)

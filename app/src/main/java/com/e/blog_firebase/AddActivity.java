@@ -91,9 +91,6 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void criaPostagem(String titulo, String descricao, Uri uriImg){
-        DatabaseReference databaseReferenceUser = FirebaseDatabase.getInstance().getReference();
-        databaseReferenceUser.child("Users").child(firebaseUser.getUid()).child("imgUri");
-        String imagemUser = databaseReferenceUser.toString();
         String idPost = UUID.randomUUID().toString();
         databaseReference.child(idPost);
         Postagem postagem = new Postagem();
@@ -102,7 +99,7 @@ public class AddActivity extends AppCompatActivity {
         postagem.setImage(uriImg.toString());
         postagem.setDescricao(descricao);
         postagem.setId(idPost);
-        postagem.setUserPhoto(imagemUser);
+        postagem.setUserPhoto(firebaseUser.getPhotoUrl().toString());
 
 
         databaseReference.push().setValue(postagem).addOnSuccessListener(new OnSuccessListener<Void>() {
