@@ -10,20 +10,18 @@
     <FrameLayout
         android:id="@+id/frameMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomMain"/>
 
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomMain"
         android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_style"
         app:menu="@menu/bottom_menu"
         app:itemIconTint="#FFF"
         app:itemTextColor="#fff"
+        android:background="#2c2c2c"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

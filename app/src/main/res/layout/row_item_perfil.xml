@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#2c2c2c"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgPostagem"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+
+
+        tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="180dp"
+
+        android:layout_height="85dp"
+        android:layout_alignBottom="@id/imgPostagem"
+        android:background="@drawable/item_style"
+        />
+</RelativeLayout>

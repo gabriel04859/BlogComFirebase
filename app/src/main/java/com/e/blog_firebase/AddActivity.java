@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.e.blog_firebase.Model.PostUser;
 import com.e.blog_firebase.Model.Postagem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,9 +47,6 @@ public class AddActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
-    private FirebaseUser firebaseUser;
-
-    private String userId;
 
     private final int REQUEST_CODE = 1;
     private Uri imgUri;
@@ -60,6 +58,9 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
 
         iniciaComponentes();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        storageReference = FirebaseStorage.getInstance().getReference().child("postagem_imagens/");
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,21 +91,23 @@ public class AddActivity extends AppCompatActivity {
         updatePostagem(titulo, descricao);
     }
 
-    private void criaPostagem(String titulo, String descricao, Uri uriImg){
-        String idPost = UUID.randomUUID().toString();
-        databaseReference.child(idPost);
-        Postagem postagem = new Postagem();
-        postagem.setIdUsuario(firebaseUser.getUid());
+    private void criaPostagem(String titulo, String descricao, final Uri uriImg){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String idUser = user.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabaseReference = databaseReference.child("Post");
+        final Postagem postagem = new Postagem();
         postagem.setTitulo(titulo);
         postagem.setImage(uriImg.toString());
+        postagem.setUserPhoto(user.getPhotoUrl().toString());
         postagem.setDescricao(descricao);
-        postagem.setId(idPost);
-        postagem.setUserPhoto(firebaseUser.getPhotoUrl().toString());
 
-
-        databaseReference.push().setValue(postagem).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDatabaseReference.push().setValue(postagem).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                PostUser postUser = new PostUser(uriImg.toString());
+                postDoUser(postUser);
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
@@ -117,6 +120,29 @@ public class AddActivity extends AppCompatActivity {
         });
 
     }
+
+    private void postDoUser(final PostUser postUser){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String idUser = user.getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDataUser = databaseReference.child("Users").child(idUser).child("userPosts");
+
+        mDataUser.push().setValue(postUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+    }
+
     private void updatePostagem(final String titulo, final String descricao) {
         final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getException(imgUri));
         reference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -175,14 +201,7 @@ public class AddActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarAdd);
 
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        assert firebaseUser != null;
-        userId = firebaseUser.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Post");
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("postagem_imagens/");
-        storageReference.child(firebaseUser.getUid());
     }
 
 }

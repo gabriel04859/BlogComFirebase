@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8EAEF"
+    android:background="#1c1c1c"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="22dp"
+        android:textColor="#fff"
         android:layout_centerHorizontal="true"
         android:text="Cadastre - se"/>
 

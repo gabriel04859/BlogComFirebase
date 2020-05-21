@@ -2,6 +2,7 @@ package com.e.blog_firebase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +49,7 @@ public class DetalhesPostActivity extends AppCompatActivity {
     private DatabaseReference databaseReferenceComent;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +59,22 @@ public class DetalhesPostActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciaComponentes();
-        configFirebase();
 
+        obtemDadosdaIntent();
+        firebaseAuth = FirebaseAuth.getInstance();
         recyclerViewComentario.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewComentario.setHasFixedSize(true);
 
+        btnComentario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addComentario();
+            }
+        });
+    }
 
+
+    private void obtemDadosdaIntent() {
         String titulo = getIntent().getStringExtra("titulo");
         String descricao = getIntent().getStringExtra("descricao");
         String postImage = getIntent().getStringExtra("postImagem");
@@ -71,15 +83,6 @@ public class DetalhesPostActivity extends AppCompatActivity {
         txtDescricaoDet.setText(descricao);
         Picasso.get().load(postImage).into(imgPost);
         Picasso.get().load(userImg).into(imgPerfilDet);
-
-        btnComentario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addComentario();
-            }
-        });
-
-
     }
 
     private void addComentario() {
@@ -119,17 +122,6 @@ public class DetalhesPostActivity extends AppCompatActivity {
 
     }
 
-    private void configRecycler(){
-
-
-    }
-
-
-
-    private void configFirebase(){
-        firebaseAuth = FirebaseAuth.getInstance();
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -142,35 +134,5 @@ public class DetalhesPostActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        databaseReferenceComent = FirebaseDatabase.getInstance().getReference().child("Comentarios");
-        String idPost = getIntent().getStringExtra("idPost");
-        databaseReferenceComent.child(idPost);
-        databaseReferenceComent.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot coment : dataSnapshot.getChildren()){
-                    //Comentario comentario = coment.getValue(Comentario.class);
-                    String cometarioStg = coment.child("comentario").getValue(String.class);
-                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                    String nomeUser = firebaseUser.getDisplayName();
-                    String imgUser = firebaseUser.getPhotoUrl().toString();
-                    Comentario comentario = new Comentario();
-                    comentario.setComentario(cometarioStg);
-                    comentario.setImgUser(imgUser);
-                    comentario.setUserName(nomeUser);
-                    comentarioArrayList.add(comentario);
-
-                }
-
-                comentarioAdapter = new ComentarioAdapter(getApplicationContext(), comentarioArrayList);
-                recyclerViewComentario.setAdapter(comentarioAdapter);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }

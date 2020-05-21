@@ -3,40 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#2c2c2c"
     android:layout_height="match_parent"
     tools:context=".PerfilActivity">
 
-    <LinearLayout
-        android:id="@+id/linear"
-        android:orientation="vertical"
-        android:background="@color/design_default_color_primary"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_gravity="center"
             android:id="@+id/imagePerfil"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
           />
 
-        <ImageView
-            android:layout_gravity="right|top"
-            android:foregroundGravity="top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_settings"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:gravity="center"
-        android:layout_below="@id/linear"
+        android:layout_below="@id/imagePerfil"
+        android:id="@+id/linear2"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -44,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:text="Nome" />
@@ -53,35 +41,31 @@
             android:id="@+id/textViewEmailPerfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginTop="8dp"
             android:text="Email" />
 
-        <Button
-            android:id="@+id/btnEditarPerfil"
-            android:background="@drawable/btn_editar_perfil"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:layout_marginTop="100dp"
-            android:textColor="#fff"
-            android:textAllCaps="false"
-            android:text="Editar perfil" />
-
     </LinearLayout>
 
+    <View
+        android:id="@+id/view2"
+        android:layout_below="@id/linear2"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:background="#fff"
+        android:layout_height="2dp" />
 
-    <Button
-        android:id="@+id/btnSingOUt"
-        android:background="@drawable/btn_sair"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:textAllCaps="false"
-        android:text="Sair" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPostagensPerfil"
+        tools:listitem="@layout/row_item_perfil"
+        android:layout_below="@id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 </RelativeLayout>
