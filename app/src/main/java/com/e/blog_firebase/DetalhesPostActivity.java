@@ -46,7 +46,9 @@ public class DetalhesPostActivity extends AppCompatActivity {
     private ComentarioAdapter comentarioAdapter;
 
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReferenceComent;
+
+    static String COMENT_KEY ="Comentarios";
+    private String keyPost;
 
 
 
@@ -59,6 +61,7 @@ public class DetalhesPostActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciaComponentes();
+        keyPost = getIntent().getStringExtra("keyPost");
 
         obtemDadosdaIntent();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -83,31 +86,49 @@ public class DetalhesPostActivity extends AppCompatActivity {
         txtDescricaoDet.setText(descricao);
         Picasso.get().load(postImage).into(imgPost);
         Picasso.get().load(userImg).into(imgPerfilDet);
+
+
     }
 
     private void addComentario() {
-
-        final String coment = edtComentario.getText().toString();
-        Comentario comentario = new Comentario();
+        final String comentarioString = edtComentario.getText().toString();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        assert firebaseUser != null;
         String idUser = firebaseUser.getUid();
+        String userImage = firebaseUser.getPhotoUrl().toString();
+        String userName = firebaseUser.getDisplayName();
+        Comentario comentario = new Comentario(comentarioString, idUser, userImage, userName);
 
-        String nomeUser = firebaseUser.getDisplayName();
-        comentario.setComentario(coment);
-        comentario.setIdUser(idUser);
-        comentario.setUserName(nomeUser);
-        comentario.setImgUser(firebaseUser.getPhotoUrl().toString());
-
-        databaseReferenceComent.setValue(comentario).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference cometarioDatabase = databaseReference.child(COMENT_KEY).child(keyPost);
+        cometarioDatabase.push().setValue(comentario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(), coment, Toast.LENGTH_LONG).show();
-                edtComentario.setText("");
+             edtComentario.setText("");
+            }
+        });
+
+    }
+    private void exibeComentarios( ){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference cometarioDatabase = databaseReference.child(COMENT_KEY).child(keyPost);
+        cometarioDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                comentarioArrayList = new ArrayList<>();
+                for(DataSnapshot comentarioDs : dataSnapshot.getChildren()){
+                    Comentario comentario = comentarioDs.getValue(Comentario.class);
+                    comentarioArrayList.add(comentario);
+                }
+                ComentarioAdapter comentarioAdapter = new ComentarioAdapter(getApplicationContext(),comentarioArrayList);
+                recyclerViewComentario.setAdapter(comentarioAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
-
     private void iniciaComponentes(){
         imgPost = findViewById(R.id.imageViewPost);
         btnEdt = findViewById(R.id.btnEditar);
@@ -133,6 +154,7 @@ public class DetalhesPostActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        exibeComentarios();
 
     }
 }

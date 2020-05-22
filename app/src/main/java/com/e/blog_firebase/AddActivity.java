@@ -102,6 +102,15 @@ public class AddActivity extends AppCompatActivity {
         postagem.setImage(uriImg.toString());
         postagem.setUserPhoto(user.getPhotoUrl().toString());
         postagem.setDescricao(descricao);
+        postagem.setIdUsuario(idUser);
+
+
+        String keyPost = UUID.randomUUID().toString();
+        postagem.setId(keyPost);
+
+        Toast.makeText(getApplicationContext(), keyPost, Toast.LENGTH_LONG).show();
+
+
 
         mDatabaseReference.push().setValue(postagem).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

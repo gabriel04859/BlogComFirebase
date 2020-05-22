@@ -48,7 +48,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
     @Override
     public void onBindViewHolder(@NonNull ComentarioViewHolder holder, int position) {
         Comentario comentario = comentarioArrayList.get(position);
-        holder.txtNome.setText(comentario.getUserName());
+        holder.txtNome.setText(comentario.getNomeUser());
         holder.txtComentario.setText(comentario.getComentario());
         String imgUser = comentario.getImgUser();
         Picasso.get().load(imgUser).into(holder.imgPerfil);

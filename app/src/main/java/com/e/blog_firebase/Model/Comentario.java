@@ -1,6 +1,12 @@
 package com.e.blog_firebase.Model;
 
 public class Comentario {
+    public Comentario(String comentario, String idUser, String imgUser, String nomeUser){
+        this.comentario = comentario;
+        this.idUser = idUser;
+        this.imgUser = imgUser;
+        this.nomeUser = nomeUser;
+    }
     public String getComentario() {
         return comentario;
     }
@@ -34,16 +40,17 @@ public class Comentario {
         this.imgUser = imgUser;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    public Comentario(){}
     private String idUser;
     private String imgUser;
-    private String userName;
     private Object timetamp;
+    private String nomeUser;
+
+    public String getNomeUser() {
+        return nomeUser;
+    }
+
+    public void setNomeUser(String nomeUser) {
+        this.nomeUser = nomeUser;
+    }
 }

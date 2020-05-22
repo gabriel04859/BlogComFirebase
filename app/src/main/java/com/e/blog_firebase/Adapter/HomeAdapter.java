@@ -53,6 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     intent.putExtra("postImagem", postagemList.get(position).getImage());
                     intent.putExtra("userPhoto", postagemList.get(position).getUserPhoto());
                     intent.putExtra("idPost", postagemList.get(position).getId());
+                    intent.putExtra("keyPost", postagemList.get(position).getId());
                     context.startActivity(intent);
                 }
             });
@@ -73,6 +74,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.txtTituloItem.setText(postagem.getTitulo());
         Picasso.get().load(postagem.getImage()).into(holder.imageItem);
         Picasso.get().load(postagem.getUserPhoto()).into(holder.imagePerfilItem);
+
 
 
 
